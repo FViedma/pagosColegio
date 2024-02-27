@@ -179,10 +179,10 @@ echo $errormsg;
 							</div>
 							
 						<div class="form-group">
-								<label class="col-sm-2 control-label" for="Old">Banco* </label>
+								<label class="col-sm-2 control-label" for="Old">Carrera* </label>
 								<div class="col-sm-10">
 									<select  class="form-control" id="branch" name="branch" >
-									<option value="" >Selecciona Banco</option>
+									<option value="" >Selecciona Carrera</option>
                                     <?php
 									$sql = "select * from branch where delete_status='0' order by branch.branch asc";
 									$q = $conn->query($sql);

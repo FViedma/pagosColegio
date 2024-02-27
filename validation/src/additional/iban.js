@@ -17,7 +17,7 @@ $.validator.addMethod( "iban", function( value, element ) {
 		leadingZeroes = true,
 		cRest = "",
 		cOperator = "",
-		countrycode, ibancheck, charAt, cChar, bbanpattern, bbancountrypatterns, ibanregexp, i, p;
+		countrycode, ibancheck, charAt, cChar, bbanpattern, buntrypatterns, ibanregexp, i, p;
 
 	// Check the country code and find the country specific format
 	countrycode = iban.substring( 0, 2 );

@@ -65,14 +65,14 @@ $_GET['action']="";
 
 if(isset($_REQUEST['act']) && @$_REQUEST['act']=="1")
 {
-$errormsg = "<div class='alert alert-success'><strong>Súper!!!</strong> Banco agregado exitósamente</div>";
+$errormsg = "<div class='alert alert-success'><strong>Súper!!!</strong> Carrera agregada exitósamente</div>";
 }else if(isset($_REQUEST['act']) && @$_REQUEST['act']=="2")
 {
-$errormsg = "<div class='alert alert-success'><strong>Súper!!!</strong> Información de Banco editada exitósamente</div>";
+$errormsg = "<div class='alert alert-success'><strong>Súper!!!</strong> Información de Carrera editada exitósamente</div>";
 }
 else if(isset($_REQUEST['act']) && @$_REQUEST['act']=="3")
 {
-$errormsg = "<div class='alert alert-success'><strong>Súper!!!</strong> Información de Banco eliminada exitósamente</div>";
+$errormsg = "<div class='alert alert-success'><strong>Súper!!!</strong> Información de Carrera eliminada exitósamente</div>";
 }
 
 ?>
@@ -268,7 +268,7 @@ echo $errormsg;
 		 
 		<div class="panel panel-default">
                         <div class="panel-heading">
-                            Administrar Información de los Bancos  
+                            Administrar Información de las Carreras  
                         </div>
                         <div class="panel-body">
                              <div class="table-sorting table-responsive">
@@ -277,7 +277,7 @@ echo $errormsg;
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Banco</th>
+                                            <th>Carrera</th>
                                             <th>Dirección</th>
                                             <th>Detalle</th>
 											<th>Acción</th>

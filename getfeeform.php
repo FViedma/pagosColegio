@@ -178,7 +178,7 @@ echo '
 <tr>
 <th>Nombre</th>
 <td>'.$sr['sname'].'</td>
-<th>Banco</th>
+<th>Carrera</th>
 <td>'.$sr['branch'].'</td>
 </tr>
 <tr>

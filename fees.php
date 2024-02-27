@@ -107,9 +107,9 @@ include("php/header.php");
   </div>
   
   <div class="form-group">
-    <label for="email"> Bancos </label>
+    <label for="email"> Carreras </label>
     <select  class="form-control" id="branch" name="branch" >
-		<option value="" >Selecciona Banco</option>
+		<option value="" >Selecciona Carrera</option>
                                     <?php
 									$sql = "select * from branch where delete_status='0' order by branch.branch asc";
 									$q = $conn->query($sql);
@@ -312,7 +312,7 @@ display:none;
                                             <th>Nombre</th>                                            
                                             <th>Pagos</th>
 											<th>Balance</th>
-											<th>Banco</th>
+											<th>Carrera</th>
 											<th>Fecha Ingreso</th>
 											<th>Acción</th>
                                         </tr>
