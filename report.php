@@ -209,6 +209,8 @@ include("php/header.php");
         // });
 
         document.getElementById('printPdf').addEventListener('click', () => {
+          var table = document.getElementById('tSortable22');
+    
           // Get the modal content.
           var modalContent = document.getElementById('formcontent').innerHTML;
 
@@ -321,8 +323,8 @@ include("php/header.php");
               startY = 50;
             }
             startY = doc.autoTable.previous.finalY + 20;
-            doc.save('ReportePagos.pdf');
           });
+          doc.save('ReportePagos.pdf');
 
 
           // tables.forEach(function(tableHtml, index) {
