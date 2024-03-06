@@ -189,178 +189,73 @@ include("php/header.php");
           $('#searchform')[0].reset();
           mydatatable();
         });
-        // document.getElementById('printPdf').addEventListener('click', () => {
-        //   // Get the table.
-        //   var table = document.getElementById('tSortable22');
-        //   // Use jsPDF and autoTable to generate PDF.
-        //   var doc = new jspdf.jsPDF('landscape');
-        //   doc.autoTable({
-        //     html: table,
-        //     theme: 'grid',
-        //     styles: {
-        //       overflow: 'linebreak',
-        //       fontSize: 8
-        //     },
-        //     tableWidth: 'auto',
-        //   });
-
-        //   // Save the PDF.
-        //   doc.save('ReportePagos.pdf');
-        // });
-
+   
         document.getElementById('printPdf').addEventListener('click', () => {
-          var table = document.getElementById('tSortable22');
-    
-          // Get the modal content.
-          var modalContent = document.getElementById('formcontent').innerHTML;
+          // Crear un nuevo documento jsPDF
+          var doc = new jspdf.jsPDF('p', 'in', 'letter');
 
-          var data = [];
-          var headers = [];
-          var rows = table.rows;
-          for (var i = 0; i < rows.length; i++) {
-            var row = [];
-            var cells = rows[i].cells;
-            for (var j = 0; j < cells.length; j++) {
-              if (i === 0) {
-                headers.push(cells[j].innerText.trim());
-              } else {
-                row.push(cells[j].innerText.trim());
-              }
+          // Establecer la fuente y el tamaño del texto para el título
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(18);
+          doc.text('Reporte de Pagos', doc.internal.pageSize.getWidth() / 2, 0.5, 'center');
+
+          // Subtítulo "Información del Estudiante"
+          doc.setFontSize(14);
+          doc.text('Información del Estudiante', 0.5, 1);
+
+          // Tabla con datos del estudiante
+          var datosEstudiante = [
+            ['Nombre', 'Kevin Titichoca Veizaga', 'Carrera', 'Programación'],
+            ['Contacto', '75266992', 'Fecha de Ingreso', '19-02-2024']
+          ];
+          doc.autoTable({
+            startY: 1.2,
+            body: datosEstudiante,
+            theme: 'grid',
+            styles: {
+              lineWidth: 0.01
             }
-            if (i !== 0) {
-              data.push(row);
-            }
-          }
-          var tables = modalContent.match(/<table\b[^>]*>[\s\S]*?<\/table>/gi);
-          
-          var startY = 300;
-          // Create a new jsPDF instance.
-          var doc = new jspdf.jsPDF('p', 'pt', 'letter');
-          
-          tables.forEach(function(tableHtml, index) {
-            var table = document.createElement('table');
-            table.innerHTML = tableHtml;
-
-            // Asignar valores de las variables del reporte con los datos de la tabla
-            // Aquí se suponen estructuras de datos y nombres de variables
-            // var studentName = data[0][0]; // Suponiendo que el primer dato de la primera fila es el nombre del estudiante
-            // var studentID = data[0][1]; // Suponiendo que el segundo dato de la primera fila es el ID del estudiante
-            // var amountReceived = parseFloat(data[1][0]); // Suponiendo que el primer dato de la segunda fila es el monto recibido (y que está en formato numérico)
-            // var careerName = data[2][0]; // Suponiendo que el primer dato de la tercera fila es el nombre de la carrera
-            // var installmentNumber = parseInt(data[3][0]); // Suponiendo que el primer dato de la cuarta fila es el número de cuota (y que está en formato numérico)
-            // var account = data[4][0]; // Suponiendo que el primer dato de la quinta fila es la cuenta
-            // var saldo = parseFloat(data[5][0]); // Suponiendo que el primer dato de la sexta fila es el saldo (y que está en formato numérico)
-            // var totalAmount = parseFloat(data[6][0]); // Suponiendo que el primer dato de la séptima fila es el monto total (y que está en formato numérico)
-
-
-            // Set font size and style for the document.
-            doc.setFontSize(12);
-
-            // Add title - Centered
-            doc.setFillColor(255, 192, 203);
-            doc.rect(40, 40, 525, 30, 'F');
-            doc.setTextColor(0);
-            doc.setFontSize(20);
-            var titleWidth = doc.getStringUnitWidth('Comprobante de INGRESO') * 20; // Calculate title width
-            var marginLeft = (doc.internal.pageSize.width - titleWidth) / 2; // Calculate left margin for centering
-            doc.text('Comprobante de INGRESO', marginLeft, 60);
-
-            // Add date of issuance
-            var today = new Date();
-            var dd = String(today.getDate()).padStart(2, '0');
-            var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
-            var yyyy = today.getFullYear();
-            var formattedDate = dd + '-' + mm + '-' + yyyy; // Current date
-            // Add date of issuance - Right aligned
-            doc.text('Fecha de Emisión:', 425, 120);
-            doc.text(formattedDate, 425, 140);
-
-            // Add student name and ID card
-            var studentName = "Juan Perez";
-            var studentID = "123456789";
-            doc.text('Recibí de: ' + studentName + '                   CI: ' + studentID, 50, 160);
-
-            // Add amount received
-            var amountReceived = 500;
-            var amountInWords = convertNumberToWords(amountReceived);
-            var amountReceivedText = 'La suma de: ';
-            var amountReceivedNumber = '' + amountReceived;
-            var amountInWordsSubtitle = 'Cantidad en letras: ';
-            var amountInWordsText = '' + amountInWords;
-            var maxTextWidth = Math.max(
-              doc.getStringUnitWidth(amountReceivedText) * 12, // Assuming font size 12
-              doc.getStringUnitWidth(amountReceivedNumber) * 12, // Assuming font size 12
-              doc.getStringUnitWidth(amountInWordsSubtitle) * 12, // Assuming font size 12
-              doc.getStringUnitWidth(amountInWordsText) * 12, // Assuming font size 12
-            );
-            doc.text(amountReceivedText, 50, 180);
-            doc.text(amountInWordsText, 50 + maxTextWidth - doc.getStringUnitWidth(amountInWordsText) * 12, 200);
-
-            // Add name of the career
-            var careerName = "Programación";
-            doc.text('Carrera: ' + careerName, 50, 220);
-
-            // Add installment number
-            var installmentNumber = 1;
-            doc.text('Número de Cuota: ' + installmentNumber, 50, 240);
-
-            // Add account - Right aligned
-            var account = "1234567890";
-            doc.text('A cuenta: ' + account, 425, 260);
-
-            // Add saldo - Right aligned
-            var saldo = 100;
-            doc.text('Saldo: ' + saldo, 425, 280);
-
-            // Add total amount - Right aligned
-            var totalAmount = 1000;
-            doc.text('Monto Total: ' + totalAmount, 425, 300);
-
-            var pageHeight = doc.internal.pageSize.height;
-            var tableHeight = (data.length + 1) * 20;
-            if (startY + tableHeight > pageHeight) {
-              doc.addPage();
-              startY = 50;
-            }
-            startY = doc.autoTable.previous.finalY + 20;
           });
-          doc.save('ReportePagos.pdf');
 
+          // Subtítulo "Información de Pagos"
+          doc.setFontSize(14);
+          doc.text('Información de Pagos', 0.5, doc.autoTable.previous.finalY + 0.5);
 
-          // tables.forEach(function(tableHtml, index) {
-          //   var table = document.createElement('table');
-          //   table.innerHTML = tableHtml;
+          // Tabla con datos de pagos
+          var datosPagos = [
+            ['19-02-2024', '300', 'Pago primera mensualidad'],
+            ['19-02-2024', '200', 'Pago matrícula'],
+            ['06-03-2024', '300', 'Tercera Mensualidad']
+            // Agregar más filas aquí si es necesario
+          ];
+          doc.autoTable({
+            startY: doc.autoTable.previous.finalY + 0.7,
+            head: [
+              ['Fecha', 'Pago', 'Observaciones']
+            ],
+            body: datosPagos,
+            theme: 'grid',
+            styles: {
+              lineWidth: 0.01
+            }
+          });
 
-          //   var data = [];
-          //   var headers = [];
-          //   var rows = table.rows;
-          //   for (var i = 0; i < rows.length; i++) {
-          //     var row = [];
-          //     var cells = rows[i].cells;
-          //     for (var j = 0; j < cells.length; j++) {
-          //       if (i === 0) {
-          //         headers.push(cells[j].innerText.trim());
-          //       } else {
-          //         row.push(cells[j].innerText.trim());
-          //       }
-          //     }
-          //     if (i !== 0) {
-          //       data.push(row);
-          //     }
-          //   }
+          // Información de totales
+          doc.setFontSize(12);
+          doc.text('Total Adeudado:', 0.5, doc.autoTable.previous.finalY + 0.3);
+          doc.text('1500', 2, doc.autoTable.previous.finalY + 0.3);
+          doc.text('Total Pagado:', 0.5, doc.autoTable.previous.finalY + 0.6);
+          doc.text('800', 2, doc.autoTable.previous.finalY + 0.6);
+          doc.text('Balance:', 0.5, doc.autoTable.previous.finalY + 0.9);
+          doc.text('700', 2, doc.autoTable.previous.finalY + 0.9);
 
-          //   var pageHeight = doc.internal.pageSize.height;
-          //   var tableHeight = (data.length + 1) * 20;
-          //   if (startY + tableHeight > pageHeight) {
-          //     doc.addPage();
-          //     startY = 50;
-          //   }
+          // Verificar si es necesario agregar una nueva página
+          if (doc.autoTable.previous.finalY > 250) {
+            doc.addPage();
+          }
 
-          //   startY = doc.autoTable.previous.finalY + 20;
-          // });
-
-
-
+          // Guardar el archivo PDF
+          doc.save('Reporte_de_Pagos.pdf');
         });
         // Function to convert number to words
         function convertNumberToWords(number) {
