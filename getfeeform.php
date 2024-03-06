@@ -177,15 +177,15 @@ echo '
 <table class="table table-bordered">
 <tr>
 <th>Nombre</th>
-<td>'.$sr['sname'].'</td>
+<td id="studentName">'.$sr['sname'].'</td>
 <th>Carrera</th>
-<td>'.$sr['branch'].'</td>
+<td id="careerName">'.$sr['branch'].'</td>
 </tr>
 <tr>
 <th>Contacto</th>
-<td>'.$sr['contact'].'</td>
+<td id="contact">'.$sr['contact'].'</td>
 <th>Fecha de Ingreso</th>
-<td>'.date("d-m-Y", strtotime($sr['joindate'])).'</td>
+<td id="enrollmentDate">'.date("d-m-Y", strtotime($sr['joindate'])).'</td>
 </tr>
 
 
@@ -197,7 +197,7 @@ echo '
 echo '
 <h4>Información de Pagos</h4>
 <div class="table-responsive">
-<table class="table table-bordered">
+<table id="monthlyPaymentTable" class="table table-bordered">
     <thead>
       <tr>
         <th>Fecha</th>
@@ -226,21 +226,21 @@ echo '
 <tr>
 <th>Total Adeudado: 
 </th>
-<td>'.$sr['fees'].'
+<td id="totalAdeudado">'.$sr['fees'].'
 </td>
 </tr>
 
 <tr>
 <th>Total Pagado: 
 </th>
-<td>'.$totapaid.'
+<td id="totalPagado">'.$totapaid.'
 </td>
 </tr>
 
 <tr>
 <th>Balance: 
 </th>
-<td>'.$sr['balance'].'
+<td id="saldo">'.$sr['balance'].'
 </td>
 </tr>
 </table>

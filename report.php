@@ -189,8 +189,32 @@ include("php/header.php");
           $('#searchform')[0].reset();
           mydatatable();
         });
-   
+
         document.getElementById('printPdf').addEventListener('click', () => {
+
+          // Obtener los datos del formulario formcontent
+          var studentName = document.getElementById('studentName').textContent;
+          var careerName = document.getElementById('careerName').textContent;
+          var contact = document.getElementById('contact').textContent;
+          var enrollmentDate = document.getElementById('enrollmentDate').textContent;
+          var paymentTable = document.getElementById('formcontent').querySelector('#monthlyPaymentTable');
+
+          // Crear un array para almacenar los datos de pagos
+          var paymentsData = [];
+
+          // Recorrer las filas de la tabla
+          for (var i = 1; i < paymentTable.rows.length; i++) {
+            var rowData = [];
+            var cells = paymentTable.rows[i].cells;
+            // Recorrer las celdas de cada fila
+            for (var j = 0; j < cells.length; j++) {
+              rowData.push(cells[j].textContent.trim()); // Agregar el contenido de la celda al array
+            }
+            paymentsData.push(rowData); // Agregar el array de datos de la fila al array principal
+          }
+          var totalAdeudado = document.getElementById('totalAdeudado').textContent.trim();
+          var totalPagado = document.getElementById('totalPagado').textContent.trim();
+          var balance = document.getElementById('saldo').textContent.trim();
           // Crear un nuevo documento jsPDF
           var doc = new jspdf.jsPDF('p', 'in', 'letter');
 
@@ -205,8 +229,8 @@ include("php/header.php");
 
           // Tabla con datos del estudiante
           var datosEstudiante = [
-            ['Nombre', 'Kevin Titichoca Veizaga', 'Carrera', 'Programación'],
-            ['Contacto', '75266992', 'Fecha de Ingreso', '19-02-2024']
+            ['Nombre', studentName, 'Carrera', careerName],
+            ['Contacto', contact, 'Fecha de Ingreso', enrollmentDate]
           ];
           doc.autoTable({
             startY: 1.2,
@@ -221,19 +245,12 @@ include("php/header.php");
           doc.setFontSize(14);
           doc.text('Información de Pagos', 0.5, doc.autoTable.previous.finalY + 0.5);
 
-          // Tabla con datos de pagos
-          var datosPagos = [
-            ['19-02-2024', '300', 'Pago primera mensualidad'],
-            ['19-02-2024', '200', 'Pago matrícula'],
-            ['06-03-2024', '300', 'Tercera Mensualidad']
-            // Agregar más filas aquí si es necesario
-          ];
           doc.autoTable({
             startY: doc.autoTable.previous.finalY + 0.7,
             head: [
               ['Fecha', 'Pago', 'Observaciones']
             ],
-            body: datosPagos,
+            body: paymentsData,
             theme: 'grid',
             styles: {
               lineWidth: 0.01
@@ -243,11 +260,11 @@ include("php/header.php");
           // Información de totales
           doc.setFontSize(12);
           doc.text('Total Adeudado:', 0.5, doc.autoTable.previous.finalY + 0.3);
-          doc.text('1500', 2, doc.autoTable.previous.finalY + 0.3);
+          doc.text(totalAdeudado, 2, doc.autoTable.previous.finalY + 0.3);
           doc.text('Total Pagado:', 0.5, doc.autoTable.previous.finalY + 0.6);
-          doc.text('800', 2, doc.autoTable.previous.finalY + 0.6);
+          doc.text(totalPagado, 2, doc.autoTable.previous.finalY + 0.6);
           doc.text('Balance:', 0.5, doc.autoTable.previous.finalY + 0.9);
-          doc.text('700', 2, doc.autoTable.previous.finalY + 0.9);
+          doc.text(balance, 2, doc.autoTable.previous.finalY + 0.9);
 
           // Verificar si es necesario agregar una nueva página
           if (doc.autoTable.previous.finalY > 250) {
@@ -280,7 +297,6 @@ include("php/header.php");
               'aTargets': [-1] /* 1st one, start by the right */
             }]
           });
-
 
         }
 
