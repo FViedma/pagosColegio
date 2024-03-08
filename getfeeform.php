@@ -1,29 +1,27 @@
 <?php
 include("php/dbconnect.php");
 
-if(isset($_POST['req']) && $_POST['req']=='1') 
-{
+if (isset($_POST['req']) && $_POST['req'] == '1') {
 
-$sid = (isset($_POST['student']))?mysqli_real_escape_string($conn,$_POST['student']):'';
+  $sid = (isset($_POST['student'])) ? mysqli_real_escape_string($conn, $_POST['student']) : '';
 
- $sql = "select s.id,s.sname,s.balance,s.fees,s.contact,b.branch,s.joindate from student as s,branch as b where b.id=s.branch and  s.delete_status='0' and s.id='".$sid."'";
-$q = $conn->query($sql);
-if($q->num_rows>0)
-{
+  $sql = "select s.id,s.sname,s.balance,s.fees,s.contact,b.branch,s.joindate from student as s,branch as b where b.id=s.branch and  s.delete_status='0' and s.id='" . $sid . "'";
+  $q = $conn->query($sql);
+  if ($q->num_rows > 0) {
 
-$res = $q->fetch_assoc();
-echo '  <form class="form-horizontal" id ="signupForm1" action="fees.php" method="post">
+    $res = $q->fetch_assoc();
+    echo '  <form class="form-horizontal" id ="signupForm1" action="fees.php" method="post">
   <div class="form-group">
     <label class="control-label col-sm-2" for="email">Nombre:</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" disabled  value="'.$res['sname'].'" >
+      <input id="name" type="text" class="form-control" disabled  value="' . $res['sname'] . '" >
     </div>
   </div>
   
   <div class="form-group">
     <label class="control-label col-sm-2" for="email">Contacto:</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" disabled  value="'.$res['contact'].'" />
+      <input id="contact" type="text" class="form-control" disabled  value="' . $res['contact'] . '" />
     </div>
   </div>
   
@@ -31,7 +29,7 @@ echo '  <form class="form-horizontal" id ="signupForm1" action="fees.php" method
   <div class="form-group">
     <label class="control-label col-sm-2" for="email">Pago Total:</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" name="totalfee" id="totalfee"   value="'.$res['fees'].'" disabled />
+      <input type="text" class="form-control" name="totalfee" id="totalfee"   value="' . $res['fees'] . '" disabled />
     </div>
   </div>
   
@@ -39,8 +37,8 @@ echo '  <form class="form-horizontal" id ="signupForm1" action="fees.php" method
   <div class="form-group">
     <label class="control-label col-sm-2" for="email">Balance:</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" name="balance"  id="balance" value="'.$res['balance'].'" disabled />
-	  <input type="hidden" value="'.$res['id'].'" name="sid">
+      <input type="text" class="form-control" name="balance"  id="balance" value="' . $res['balance'] . '" disabled />
+	  <input type="hidden" value="' . $res['id'] . '" name="sid">
     </div>
   </div>
   
@@ -64,7 +62,7 @@ echo '  <form class="form-horizontal" id ="signupForm1" action="fees.php" method
    <div class="form-group">
     <label class="control-label col-sm-2" for="email">Observación:</label>
     <div class="col-sm-10">
-      <textarea class="form-control" name="transcation_remark" id="transcation_remark"></textarea>
+      <textarea class="form-control" name="transaction_remark" id="transaction_remark"></textarea>
     </div>
   </div>
  
@@ -99,7 +97,7 @@ $( "#signupForm1" ).validate( {
 					paid: {
 						required: true,
 						digits: true,
-						max:'.$res['balance'].'
+						max:' . $res['balance'] . '
 					}	
 					
 					
@@ -142,50 +140,42 @@ $( "#signupForm1" ).validate( {
 
 //////////////////////////	
 	
-	
-	
 });
 
 </script>
 ';
-
-}else
-{
-echo "Something Goes Wrong! Try After sometime.";
+  } else {
+    echo "Something Goes Wrong! Try After sometime.";
+  }
 }
 
+if (isset($_POST['req']) && $_POST['req'] == '2') {
 
-}
-
-if(isset($_POST['req']) && $_POST['req']=='2') 
-{
-
-$sid = (isset($_POST['student']))?mysqli_real_escape_string($conn,$_POST['student']):'';
-$sql = "select paid,submitdate,transcation_remark from fees_transaction  where stdid='".$sid."'";
-$fq = $conn->query($sql);
-if($fq->num_rows>0)
-{
+  $sid = (isset($_POST['student'])) ? mysqli_real_escape_string($conn, $_POST['student']) : '';
+  $sql = "select paid,submitdate,transcation_remark from fees_transaction  where stdid='" . $sid . "'";
+  $fq = $conn->query($sql);
+  if ($fq->num_rows > 0) {
 
 
- $sql = "select s.id,s.sname,s.balance,s.fees,s.contact,b.branch,s.joindate from student as s,branch as b where b.id=s.branch  and s.id='".$sid."'";
-$sq = $conn->query($sql);
-$sr = $sq->fetch_assoc();
+    $sql = "select s.id,s.sname,s.balance,s.fees,s.contact,b.branch,s.joindate from student as s,branch as b where b.id=s.branch  and s.id='" . $sid . "'";
+    $sq = $conn->query($sql);
+    $sr = $sq->fetch_assoc();
 
-echo '
+    echo '
 <h4>Información del Estudiante</h4>
 <div class="table-responsive">
 <table class="table table-bordered">
 <tr>
 <th>Nombre</th>
-<td id="studentName">'.$sr['sname'].'</td>
+<td id="studentName">' . $sr['sname'] . '</td>
 <th>Carrera</th>
-<td id="careerName">'.$sr['branch'].'</td>
+<td id="careerName">' . $sr['branch'] . '</td>
 </tr>
 <tr>
 <th>Contacto</th>
-<td id="contact">'.$sr['contact'].'</td>
+<td id="contact">' . $sr['contact'] . '</td>
 <th>Fecha de Ingreso</th>
-<td id="enrollmentDate">'.date("d-m-Y", strtotime($sr['joindate'])).'</td>
+<td id="enrollmentDate">' . date("d-m-Y", strtotime($sr['joindate'])) . '</td>
 </tr>
 
 
@@ -194,7 +184,7 @@ echo '
 ';
 
 
-echo '
+    echo '
 <h4>Información de Pagos</h4>
 <div class="table-responsive">
 <table id="monthlyPaymentTable" class="table table-bordered">
@@ -206,18 +196,17 @@ echo '
       </tr>
     </thead>
     <tbody>';
-	$totapaid = 0;
-while($res = $fq->fetch_assoc())
-{
-$totapaid+=$res['paid'];
-        echo '<tr>
-        <td>'.date("d-m-Y", strtotime($res['submitdate'])).'</td>
-        <td>'.$res['paid'].'</td>
-        <td>'.$res['transcation_remark'].'</td>
-      </tr>' ;
-}
-      
-echo '	  
+    $totapaid = 0;
+    while ($res = $fq->fetch_assoc()) {
+      $totapaid += $res['paid'];
+      echo '<tr>
+        <td>' . date("d-m-Y", strtotime($res['submitdate'])) . '</td>
+        <td>' . $res['paid'] . '</td>
+        <td>' . $res['transcation_remark'] . '</td>
+      </tr>';
+    }
+
+    echo '	  
     </tbody>
   </table>
  </div> 
@@ -226,38 +215,26 @@ echo '
 <tr>
 <th>Total Adeudado: 
 </th>
-<td id="totalAdeudado">'.$sr['fees'].'
+<td id="totalAdeudado">' . $sr['fees'] . '
 </td>
 </tr>
 
 <tr>
 <th>Total Pagado: 
 </th>
-<td id="totalPagado">'.$totapaid.'
+<td id="totalPagado">' . $totapaid . '
 </td>
 </tr>
 
 <tr>
 <th>Balance: 
 </th>
-<td id="saldo">'.$sr['balance'].'
+<td id="saldo">' . $sr['balance'] . '
 </td>
 </tr>
 </table>
  ';
-
-
- }
-else
-{
-echo 'Sin pagos ingresados.';
+  } else {
+    echo 'Sin pagos ingresados.';
+  }
 }
- 
-}
-		
-		 
-			
-			
-	
-
-?>
