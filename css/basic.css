@@ -7,13 +7,13 @@ body {
 
 #wrapper {
     width: 100%;
-    background: #202020;
+    background: #FFFFFF;
 }
 
 #page-wrapper {
     padding: 15px 15px;
     min-height: 600px;
-    background: #F3F3F3;
+    background: #FFFFFF;
 }
 
 #page-inner {
@@ -30,7 +30,7 @@ body {
     color: #000;
     font-weight: 800;
     padding-bottom: 20px;
-    border-bottom: 2px solid #00CA79;
+    border-bottom: 2px solid #FFC0CB;
     margin-bottom: 10px;
 }
 
@@ -40,7 +40,7 @@ body {
     padding-bottom: 20px;
     font-style:italic;
     margin-bottom:30px;
-    border-bottom:1px dashed #00CA79;
+    border-bottom:1px dashed #ffc0cb;
 
 }
 
@@ -94,7 +94,7 @@ body {
     }
 
 .active-menu {
-    background-color: #00CA79!important;
+    background-color: #ffc0cb!important;
 }
 .active-menu-top {
     background-color: #000!important;
@@ -170,7 +170,7 @@ body {
 }
 
 .navbar-cls-top {
-    background: #00CA79;
+    background: #ffc0cb;
     border-bottom: none;
 }
 
@@ -184,7 +184,7 @@ body {
 }
 
 .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
-    background-color: #00CA79;
+    background-color: #ffc0cb;
 }
 
 .navbar-default .navbar-toggle {

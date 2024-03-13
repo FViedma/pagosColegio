@@ -14,7 +14,7 @@ $contact='';
 $balance = 0;
 $fees='';
 $about = '';
-$branch='';
+$career='';
 
 
 if(isset($_POST['save']))
@@ -27,7 +27,7 @@ $joindate = mysqli_real_escape_string($conn,$_POST['joindate']);
 $contact = mysqli_real_escape_string($conn,$_POST['contact']);
 $about = mysqli_real_escape_string($conn,$_POST['about']);
 $emailid = mysqli_real_escape_string($conn,$_POST['emailid']);
-$branch = mysqli_real_escape_string($conn,$_POST['branch']);
+$career = mysqli_real_escape_string($conn,$_POST['career']);
 
 
  if($_POST['action']=="add")
@@ -37,7 +37,7 @@ $branch = mysqli_real_escape_string($conn,$_POST['branch']);
  $advancefees = mysqli_real_escape_string($conn,$_POST['advancefees']);
  $balance = $fees-$advancefees;
  
-  $q1 = $conn->query("INSERT INTO student (ci,sname,joindate,contact,about,emailid,branch,balance,fees) VALUES ('$ci','$sname','$joindate','$contact','$about','$emailid','$branch','$balance','$fees')") ;
+  $q1 = $conn->query("INSERT INTO student (ci,sname,joindate,contact,about,emailid,career,balance,fees) VALUES ('$ci','$sname','$joindate','$contact','$about','$emailid','$career','$balance','$fees')") ;
   
   $sid = $conn->insert_id;
   
@@ -49,7 +49,7 @@ $branch = mysqli_real_escape_string($conn,$_POST['branch']);
   if($_POST['action']=="update")
  {
  $id = mysqli_real_escape_string($conn,$_POST['id']);	
-   $sql = $conn->query("UPDATE  student  SET ci = '$ci', sname = '$sname', contact = '$contact', branch  = '$branch', about = '$about', emailid = '$emailid'  WHERE  id  = '$id'");
+   $sql = $conn->query("UPDATE  student  SET ci = '$ci', sname = '$sname', contact = '$contact', career  = '$career', about = '$about', emailid = '$emailid'  WHERE  id  = '$id'");
    echo '<script type="text/javascript">window.location="student.php?act=2";</script>';
  }
 
@@ -189,15 +189,15 @@ echo $errormsg;
 						<div class="form-group">
 								<label class="col-sm-2 control-label" for="Old">Carrera* </label>
 								<div class="col-sm-10">
-									<select  class="form-control" id="branch" name="branch" >
+									<select  class="form-control" id="career" name="career" >
 									<option value="" >Selecciona Carrera</option>
                                     <?php
-									$sql = "select * from branch where delete_status='0' order by branch.branch asc";
+									$sql = "select * from career where delete_status='0' order by career.career asc";
 									$q = $conn->query($sql);
 									
 									while($r = $q->fetch_assoc())
 									{
-									echo '<option value="'.$r['id'].'"  '.(($branch==$r['id'])?'selected="selected"':'').'>'.$r['branch'].'</option>';
+									echo '<option value="'.$r['id'].'"  '.(($career==$r['id'])?'selected="selected"':'').'>'.$r['career'].'</option>';
 									}
 									?>									
 									
@@ -337,7 +337,7 @@ yearRange: "1970:<?php echo date('Y');?>"
 					sci: "required",
 					joindate: "required",
 					emailid: "email",
-					branch: "required",
+					career: "required",
 					
 					
 					contact: {
@@ -369,7 +369,7 @@ yearRange: "1970:<?php echo date('Y');?>"
 					sci: "required",
 					joindate: "required",
 					emailid: "email",
-					branch: "required",
+					career: "required",
 					
 					
 					contact: {

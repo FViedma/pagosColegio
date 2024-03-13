@@ -5,7 +5,7 @@ if (isset($_POST['req']) && $_POST['req'] == '1') {
 
   $sid = (isset($_POST['student'])) ? mysqli_real_escape_string($conn, $_POST['student']) : '';
 
-  $sql = "select s.id,s.ci,s.sname,s.balance,s.fees,s.contact,b.branch,s.joindate from student as s,branch as b where b.id=s.branch and  s.delete_status='0' and s.id='" . $sid . "'";
+  $sql = "select s.id,s.ci,s.sname,s.balance,s.fees,s.contact,b.career,s.joindate from student as s,career as b where b.id=s.career and  s.delete_status='0' and s.id='" . $sid . "'";
   $q = $conn->query($sql);
   if ($q->num_rows > 0) {
 
@@ -75,7 +75,7 @@ if (isset($_POST['req']) && $_POST['req'] == '1') {
  
  
  
-  <input type="hidden" id="branchValue">
+  <input type="hidden" id="careerValue" name="careerValue">
  
   <div class="form-group"> 
     <div class="col-sm-offset-2 col-sm-10">
@@ -164,7 +164,7 @@ if (isset($_POST['req']) && $_POST['req'] == '2') {
   if ($fq->num_rows > 0) {
 
 
-    $sql = "select s.id,s.sname,s.balance,s.fees,s.contact,b.branch,s.joindate from student as s,branch as b where b.id=s.branch  and s.id='" . $sid . "'";
+    $sql = "select s.id,s.sname,s.balance,s.fees,s.contact,b.career,s.joindate from student as s,career as b where b.id=s.career  and s.id='" . $sid . "'";
     $sq = $conn->query($sql);
     $sr = $sq->fetch_assoc();
 
@@ -176,7 +176,7 @@ if (isset($_POST['req']) && $_POST['req'] == '2') {
 <th>Nombre</th>
 <td id="studentName">' . $sr['sname'] . '</td>
 <th>Carrera</th>
-<td id="careerName">' . $sr['branch'] . '</td>
+<td id="careerName">' . $sr['career'] . '</td>
 </tr>
 <tr>
 <th>Contacto</th>

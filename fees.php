@@ -26,10 +26,14 @@ if (isset($_POST['save'])) {
 
     echo '<script type="text/javascript">window.location="fees.php?act=1";</script>';
   }
+} else {
+  error_log('Error en la transaccion en base de datos');
 }
 
 if (isset($_REQUEST['act']) && @$_REQUEST['act'] == "1") {
   $errormsg = "<div class='alert alert-success'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><strong>Excelente!</strong> Pago realizado exitósamente</div>";
+} else {
+  error_log("error");
 }
 
 ?>
@@ -109,14 +113,15 @@ include("php/header.php");
 
             <div class="form-group">
               <label for="email"> Carreras </label>
-              <select class="form-control" id="branch" name="branch">
+              <select class="form-control" id="career" name="career">
                 <option value="">Selecciona Carrera</option>
                 <?php
-                $sql = "select * from branch where delete_status='0' order by branch.branch asc";
+                $career = '';
+                $sql = "select * from career where delete_status='0' order by career.career asc";
                 $q = $conn->query($sql);
 
                 while ($r = $q->fetch_assoc()) {
-                  echo '<option value="' . $r['id'] . '"  ' . (($branch == $r['id']) ? 'selected="selected"' : '') . '>' . $r['branch'] . '</option>';
+                  echo '<option value="' . $r['id'] . '"  ' . (($career == $r['id']) ? 'selected="selected"' : '') . '>' . $r['career'] . '</option>';
                 }
                 ?>
               </select>
@@ -131,7 +136,7 @@ include("php/header.php");
     </div>
 
     <script type="text/javascript">
-      var branchValue;
+      var careerValue;
       $(document).ready(function() {
 
         /*
@@ -226,7 +231,7 @@ include("php/header.php");
 
         function mydatatable() {
 
-          $("#subjectresult").html('<table class="table table-striped table-bordered table-hover" id="tSortable22"><thead><tr><th>Name/Contact</th><th>Fees</th><th>Balance</th><th>Branch</th><th>DOJ</th><th>Action</th></tr></thead><tbody></tbody></table>');
+          $("#subjectresult").html('<table class="table table-striped table-bordered table-hover" id="tSortable22"><thead><tr><th>Name/Contact</th><th>Fees</th><th>Balance</th><th>Career</th><th>DOJ</th><th>Action</th></tr></thead><tbody></tbody></table>');
 
           $("#tSortable22").dataTable({
             'sPaginationType': 'full_numbers',
@@ -270,7 +275,7 @@ include("php/header.php");
             var studentName = $('#name').val();
             var pagado = $('#paid').val();
             var saldo = $('#balance').val();
-            var branch = $('#branchValue').val();
+            var career = $('#careerValue').val();
             var studentID = $('#ci').val();
 
             var doc = new jspdf.jsPDF('p', 'pt', 'letter');
@@ -351,7 +356,7 @@ include("php/header.php");
             startY = 201; // Starting Y position of the border
             doc.rect(startX, startY, contentWidth, contentHeight, 'S');
 
-            doc.text('Carrera: ' + branch.toUpperCase(), 425, 250);
+            doc.text('Carrera: ' + career.toUpperCase(), 425, 250);
 
             var installmentNumber = 1;
             doc.text('CUOTA: ' + installmentNumber, 50, 250);
@@ -368,6 +373,17 @@ include("php/header.php");
             var pageHeight = doc.internal.pageSize.height;
 
             doc.save("comprobante.pdf");
+
+            // Create a hidden input field to hold the 'save' value
+            var saveInput = $('<input>')
+              .attr('type', 'hidden')
+              .attr('name', 'save')
+              .val('save');
+
+            // Append the hidden input field to the form
+            $(this).append(saveInput);
+
+            // Submit the form
 
             this.submit();
           });
@@ -433,7 +449,7 @@ include("php/header.php");
         return resultado.toUpperCase();
       }
 
-      function GetFeeForm(sid, branch) {
+      function GetFeeForm(sid, career) {
         $.ajax({
           type: 'post',
           url: 'getfeeform.php',
@@ -446,7 +462,7 @@ include("php/header.php");
             $("#myModal").modal({
               backdrop: "static"
             });
-            $('#formcontent').find('#branchValue').val(branch);
+            $('#formcontent').find('#careerValue').val(career);
           }
         });
 

@@ -9,7 +9,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.php">Pagos ConfiguroWeb</a>
+                <a class="navbar-brand" href="index.php">INSTITUTO DEL CARMEN</a>
             </div>
 
         </nav>
@@ -36,7 +36,11 @@
                     </li>
 					
 					 <li>
-                        <a href="branch.php"><i class="fa fa-university "></i>Carreras</a>
+                        <a href="branch.php"><i class="fa fa-university "></i>Sucursal</a>
+                    </li>
+
+					 <li>
+                        <a href="career.php"><i class="fa fa-graduation-cap "></i>Carreras</a>
                     </li>
 					
 					 <li>

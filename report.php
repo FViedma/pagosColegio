@@ -76,14 +76,14 @@ include("php/header.php");
 
             <div class="form-group">
               <label for="email"> Carrera </label>
-              <select class="form-control" id="branch" name="branch">
+              <select class="form-control" id="career" name="career">
                 <option value="">Selecciona Carrera</option>
                 <?php
-                $sql = "select * from branch where delete_status='0' order by branch.branch asc";
+                $sql = "select * from career where delete_status='0' order by career.career asc";
                 $q = $conn->query($sql);
 
                 while ($r = $q->fetch_assoc()) {
-                  echo '<option value="' . $r['id'] . '"  ' . (($branch == $r['id']) ? 'selected="selected"' : '') . '>' . $r['branch'] . '</option>';
+                  echo '<option value="' . $r['id'] . '"  ' . (($career == $r['id']) ? 'selected="selected"' : '') . '>' . $r['career'] . '</option>';
                 }
                 ?>
               </select>
@@ -282,7 +282,7 @@ include("php/header.php");
 
         function mydatatable() {
 
-          $("#subjectresult").html('<table class="table table-striped table-bordered table-hover" id="tSortable22"><thead><tr><th>Name/Contact</th><th>Fees</th><th>Balance</th><th>Branch</th><th>DOJ</th><th>Action</th></tr></thead><tbody></tbody></table>');
+          $("#subjectresult").html('<table class="table table-striped table-bordered table-hover" id="tSortable22"><thead><tr><th>Name/Contact</th><th>Fees</th><th>Balance</th><th>Career</th><th>DOJ</th><th>Action</th></tr></thead><tbody></tbody></table>');
 
           $("#tSortable22").dataTable({
             'sPaginationType': 'full_numbers',
