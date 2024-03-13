@@ -68,7 +68,7 @@ if (isset($_POST['req']) && $_POST['req'] == '1') {
  
  
  
- 
+  <input type="hidden" id="branchValue">
  
   <div class="form-group"> 
     <div class="col-sm-offset-2 col-sm-10">

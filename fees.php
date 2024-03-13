@@ -5,7 +5,7 @@ $errormsg = '';
 if (isset($_POST['save'])) {
   $paid = mysqli_real_escape_string($conn, $_POST['paid']);
   $submitdate = mysqli_real_escape_string($conn, $_POST['submitdate']);
-  $transcation_remark = mysqli_real_escape_string($conn, $_POST['transcation_remark']);
+  $transcation_remark = mysqli_real_escape_string($conn, $_POST['transaction_remark']);
   $sid = mysqli_real_escape_string($conn, $_POST['sid']);
 
   $sql = "select fees,balance  from student where id = '$sid'";
@@ -131,6 +131,7 @@ include("php/header.php");
     </div>
 
     <script type="text/javascript">
+      var branchValue;
       $(document).ready(function() {
 
         /*
@@ -263,14 +264,15 @@ include("php/header.php");
           }]
         });
 
-        ///////////////////////////		
         $('#myModal').on('shown.bs.modal', function() {
-          // Agregar el script para generar el reporte PDF
           $('#signupForm1').on('submit', function(e) {
             e.preventDefault();
+            var studentName = $('#name').val();
+            var pagado = $('#paid').val();
+            var saldo = $('#balance').val();
+            var branch = $('#branchValue').val();
 
             var doc = new jspdf.jsPDF('p', 'pt', 'letter');
-            var table = document.createElement('table');
 
             // Set font size and style for the document.
             doc.setFontSize(16);
@@ -289,8 +291,6 @@ include("php/header.php");
             var dd = String(today.getDate()).padStart(2, '0');
             var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
             var yyyy = today.getFullYear().toString();
-            // var formattedDate = dd + '-' + mm + '-' + yyyy; // Current date
-            // Add date of issuance - Right aligned
             doc.text('Fecha de Emisión:', 425, 120);
 
             var posX = 425;
@@ -312,81 +312,128 @@ include("php/header.php");
 
 
             // Add student name and ID card
-            var studentName = "Juan Perez";
             var studentID = "123456789";
-            doc.text('Recibí de: ' + studentName + '                   CI: ' + studentID, 50, 160);
+            doc.text('RECIBI DE:', 50, 160);
+            doc.text('CI: ' + studentID, 425, 160);
+            doc.text(studentName.toUpperCase(), 60, 172);
 
-            // Add amount received
-            var amountReceived = 500;
-            var amountInWords = "quinientos ";
-            var amountReceivedText = 'La suma de: ';
-            var amountReceivedNumber = '' + amountReceived;
+            var amountReceivedText = 'LA SUMA DE: ';
+            var amountReceivedNumber = '' + pagado;
             var amountInWordsSubtitle = 'Cantidad en letras: ';
-            var amountInWordsText = '' + amountInWords;
+            var amountInWordsText = numeroEnLetras(pagado);
             var maxTextWidth = Math.max(
               doc.getStringUnitWidth(amountReceivedText) * 12, // Assuming font size 12
               doc.getStringUnitWidth(amountReceivedNumber) * 12, // Assuming font size 12
               doc.getStringUnitWidth(amountInWordsSubtitle) * 12, // Assuming font size 12
               doc.getStringUnitWidth(amountInWordsText) * 12, // Assuming font size 12
             );
-            doc.text(amountReceivedText, 50, 180);
-            doc.text(amountInWordsText, 50 + maxTextWidth - doc.getStringUnitWidth(amountInWordsText) * 12, 200);
+            doc.text(amountReceivedText, 50, 193);
+            doc.text(amountInWordsText + " BOLIVIANOS", 50, 213);
 
-            // Add name of the career
-            var careerName = "Programación";
-            doc.text('Carrera: ' + careerName, 50, 220);
+            var contentWidth = 525; // Width of the content area
+            var contentHeight = 80; // Height of the content area
+            var borderWidth = 1; // Border width
+            var startX = 40; // Starting X position of the border
+            var startY = 150; // Starting Y position of the border
+            doc.rect(startX, startY, contentWidth, contentHeight, 'S');
+            // Draw border around the content
+            contentWidth = 505; // Width of the content area
+            contentHeight = 20; // Height of the content area
+            borderWidth = 1; // Border width
+            startX = 45; // Starting X position of the border
+            startY = 161; // Starting Y position of the border
+            doc.rect(startX, startY, contentWidth, contentHeight, 'S');
+            // Draw border around the content
+            contentWidth = 505; // Width of the content area
+            contentHeight = 20; // Height of the content area
+            borderWidth = 1; // Border width
+            startX = 45; // Starting X position of the border
+            startY = 201; // Starting Y position of the border
+            doc.rect(startX, startY, contentWidth, contentHeight, 'S');
 
-            // Add installment number
+            doc.text('Carrera: ' + branch.toUpperCase(), 425, 250);
+
             var installmentNumber = 1;
-            doc.text('Número de Cuota: ' + installmentNumber, 50, 240);
+            doc.text('CUOTA: ' + installmentNumber, 50, 250);
 
-            // Add account - Right aligned
-            var account = "1234567890";
-            doc.text('A cuenta: ' + account, 425, 260);
+            doc.text('A cuenta: ' + pagado, 425, 270);
 
-            // Add saldo - Right aligned
-            var saldo = 100;
-            doc.text('Saldo: ' + saldo, 425, 280);
 
-            // Add total amount - Right aligned
-            var totalAmount = 1000;
-            doc.text('Monto Total: ' + totalAmount, 425, 300);
+
+            doc.text('Saldo: ' + saldo, 425, 290);
+
+
+            doc.text('Total: ' + pagado, 425, 310);
 
             var pageHeight = doc.internal.pageSize.height;
-            // var tableHeight = (data.length + 1) * 20;
-            // if (startY + tableHeight > pageHeight) {
-            //   doc.addPage();
-            //   startY = 50;
-            // }
-            // startY = doc.autoTable.previous.finalY + 20;
 
-            // Añadir el resto del contenido al PDF
-            // doc.text("Nombre: " + document.getElementById("name").value, 1, 2);
-            // doc.text("Contacto: " + document.getElementById("contact").value, 1, 3);
-            // doc.text("Pago Total: " + document.getElementById("totalfee").value, 1, 4);
-            // doc.text("Balance: " + document.getElementById("balance").value, 1, 5);
-            // doc.text("Cantidad a Pagar: " + document.getElementById("paid").value, 1, 6);
-            // doc.text("Fecha: " + document.getElementById("submitdate").value, 1, 7);
-            // doc.text("Observación: " + document.getElementById("transaction_remark").value, 1, 8);
-
-
-            // Guardar el PDF
             doc.save("comprobante.pdf");
 
-
-            // Después de guardar el PDF, puedes continuar con el envío del formulario
             // this.submit();
           });
         });
 
-        // ... (tu código existente)
-
-
       });
 
+      function numeroEnLetras(numero) {
+        // Mapea los valores numéricos a su representación en palabras
+        const unidades = ['', 'uno', 'dos', 'tres', 'cuatro', 'cinco', 'seis', 'siete', 'ocho', 'nueve'];
+        const especiales = ['', 'once', 'doce', 'trece', 'catorce', 'quince', 'dieciséis', 'diecisiete', 'dieciocho', 'diecinueve'];
+        const decenas = ['', 'diez', 'veinte', 'treinta', 'cuarenta', 'cincuenta', 'sesenta', 'setenta', 'ochenta', 'noventa'];
+        const centenas = ['', 'cien', 'doscientos', 'trescientos', 'cuatrocientos', 'quinientos', 'seiscientos', 'setecientos', 'ochocientos', 'novecientos'];
+        // Mapea los valores de agrupación en palabras
+        const agrupacion = ['', 'mil', 'millón', 'mil millones', 'billón', 'mil billones'];
+        // Convierte el número a un string para iterar sobre cada dígito
+        const numeroStr = numero.toString();
 
-      function GetFeeForm(sid) {
+        // Convierte el número a un string para iterar sobre cada dígito
+        let resultado = '';
 
+        // Convierte el número en letras de acuerdo a su longitud
+        if (numero === 0) {
+          resultado = 'cero';
+        } else if (numero < 10) {
+          resultado = unidades[numero];
+        } else if (numero < 20) {
+          resultado = especiales[numero - 10];
+        } else if (numero < 100) {
+          const decena = Math.floor(numero / 10);
+          const unidad = numero % 10;
+          resultado = decenas[decena];
+          if (unidad !== 0) {
+            resultado += ' y ' + unidades[unidad];
+          }
+        } else if (numero < 1000) {
+          const centena = Math.floor(numero / 100);
+          const resto = numero % 100;
+          resultado = centenas[centena];
+          if (resto !== 0) {
+            resultado += ' ' + numeroEnLetras(resto);
+          }
+        } else {
+          // Encuentra la agrupación correspondiente y divide el número en partes
+          let grupo = 0;
+          let resto = numero;
+          while (resto >= 1000) {
+            resto /= 1000;
+            grupo++;
+          }
+          const agrupacionActual = agrupacion[grupo];
+          const agrupacionSiguiente = agrupacion[grupo + 1];
+          const parteEntera = Math.floor(resto);
+          const parteDecimal = resto - parteEntera;
+
+          // Concatena las partes del número en letras
+          resultado = numeroEnLetras(parteEntera) + ' ' + agrupacionActual;
+          if (parteDecimal > 0) {
+            resultado += ' ' + numeroEnLetras(parteDecimal) + ' ' + agrupacionSiguiente;
+          }
+        }
+
+        return resultado.toUpperCase();
+      }
+
+      function GetFeeForm(sid, branch) {
         $.ajax({
           type: 'post',
           url: 'getfeeform.php',
@@ -399,6 +446,7 @@ include("php/header.php");
             $("#myModal").modal({
               backdrop: "static"
             });
+            $('#formcontent').find('#branchValue').val(branch);
           }
         });
 
@@ -408,9 +456,6 @@ include("php/header.php");
 
       ////////////////////////////
     </script>
-
-
-
 
     <style>
       #doj .ui-datepicker-calendar {

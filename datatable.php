@@ -175,7 +175,7 @@ $aColumns = array( 's.id','s.sname','s.balance','s.fees','b.branch','s.contact',
                     $aRow['branch'],
 					date("d M y", strtotime($aRow['joindate'])),
                     
-					html_entity_decode('<button class="btn btn-warning btn-xs" onclick="javascript:GetFeeForm('.$aRow['id'].')"><i class="fa fa-usd "></i>  Tomar Pago </button>')
+					html_entity_decode('<button class="btn btn-warning btn-xs" onclick="javascript:GetFeeForm('.$aRow['id'].', \''.$aRow['branch'].'\')"><i class="fa fa-usd "></i>  Tomar Pago </button>')
 										
                 );
 		
