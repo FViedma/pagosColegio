@@ -271,6 +271,7 @@ include("php/header.php");
             var pagado = $('#paid').val();
             var saldo = $('#balance').val();
             var branch = $('#branchValue').val();
+            var studentID = $('#ci').val();
 
             var doc = new jspdf.jsPDF('p', 'pt', 'letter');
 
@@ -312,7 +313,6 @@ include("php/header.php");
 
 
             // Add student name and ID card
-            var studentID = "123456789";
             doc.text('RECIBI DE:', 50, 160);
             doc.text('CI: ' + studentID, 425, 160);
             doc.text(studentName.toUpperCase(), 60, 172);
@@ -369,7 +369,7 @@ include("php/header.php");
 
             doc.save("comprobante.pdf");
 
-            // this.submit();
+            this.submit();
           });
         });
 

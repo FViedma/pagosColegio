@@ -5,7 +5,7 @@ if (isset($_POST['req']) && $_POST['req'] == '1') {
 
   $sid = (isset($_POST['student'])) ? mysqli_real_escape_string($conn, $_POST['student']) : '';
 
-  $sql = "select s.id,s.sname,s.balance,s.fees,s.contact,b.branch,s.joindate from student as s,branch as b where b.id=s.branch and  s.delete_status='0' and s.id='" . $sid . "'";
+  $sql = "select s.id,s.ci,s.sname,s.balance,s.fees,s.contact,b.branch,s.joindate from student as s,branch as b where b.id=s.branch and  s.delete_status='0' and s.id='" . $sid . "'";
   $q = $conn->query($sql);
   if ($q->num_rows > 0) {
 
@@ -18,6 +18,13 @@ if (isset($_POST['req']) && $_POST['req'] == '1') {
     </div>
   </div>
   
+  <div class="form-group">
+    <label class="control-label col-sm-2" for="email">Ci:</label>
+    <div class="col-sm-10">
+      <input id="ci" type="text" class="form-control" disabled  value="' . $res['ci'] . '" />
+    </div>
+  </div>
+
   <div class="form-group">
     <label class="control-label col-sm-2" for="email">Contacto:</label>
     <div class="col-sm-10">

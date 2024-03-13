@@ -5,6 +5,7 @@ $errormsg = '';
 $action = "add";
 
 $id="";
+$ci="";
 $emailid='';
 $sname='';
 $joindate = '';
@@ -20,6 +21,7 @@ if(isset($_POST['save']))
 {
 
 $sname = mysqli_real_escape_string($conn,$_POST['sname']);
+$ci = mysqli_real_escape_string($conn,$_POST['ci']);
 $joindate = mysqli_real_escape_string($conn,$_POST['joindate']);
 
 $contact = mysqli_real_escape_string($conn,$_POST['contact']);
@@ -35,7 +37,7 @@ $branch = mysqli_real_escape_string($conn,$_POST['branch']);
  $advancefees = mysqli_real_escape_string($conn,$_POST['advancefees']);
  $balance = $fees-$advancefees;
  
-  $q1 = $conn->query("INSERT INTO student (sname,joindate,contact,about,emailid,branch,balance,fees) VALUES ('$sname','$joindate','$contact','$about','$emailid','$branch','$balance','$fees')") ;
+  $q1 = $conn->query("INSERT INTO student (ci,sname,joindate,contact,about,emailid,branch,balance,fees) VALUES ('$ci','$sname','$joindate','$contact','$about','$emailid','$branch','$balance','$fees')") ;
   
   $sid = $conn->insert_id;
   
@@ -47,7 +49,7 @@ $branch = mysqli_real_escape_string($conn,$_POST['branch']);
   if($_POST['action']=="update")
  {
  $id = mysqli_real_escape_string($conn,$_POST['id']);	
-   $sql = $conn->query("UPDATE  student  SET  branch  = '$branch', address  = '$address', detail  = '$detail'  WHERE  id  = '$id'");
+   $sql = $conn->query("UPDATE  student  SET ci = '$ci', sname = '$sname', contact = '$contact', branch  = '$branch', about = '$about', emailid = '$emailid'  WHERE  id  = '$id'");
    echo '<script type="text/javascript">window.location="student.php?act=2";</script>';
  }
 
@@ -169,6 +171,12 @@ echo $errormsg;
 								<label class="col-sm-2 control-label" for="Old">Nombre* </label>
 								<div class="col-sm-10">
 									<input type="text" class="form-control" id="sname" name="sname" value="<?php echo $sname;?>"  />
+								</div>
+							</div>
+						<div class="form-group">
+								<label class="col-sm-2 control-label" for="Old">Ci* </label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="ci" name="ci" value="<?php echo $ci;?>"  />
 								</div>
 							</div>
 						<div class="form-group">
@@ -326,6 +334,7 @@ yearRange: "1970:<?php echo date('Y');?>"
 			$( "#signupForm1" ).validate( {
 				rules: {
 					sname: "required",
+					sci: "required",
 					joindate: "required",
 					emailid: "email",
 					branch: "required",
@@ -357,6 +366,7 @@ yearRange: "1970:<?php echo date('Y');?>"
 			$( "#signupForm1" ).validate( {
 				rules: {
 					sname: "required",
+					sci: "required",
 					joindate: "required",
 					emailid: "email",
 					branch: "required",
