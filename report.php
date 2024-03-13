@@ -79,6 +79,7 @@ include("php/header.php");
               <select class="form-control" id="career" name="career">
                 <option value="">Selecciona Carrera</option>
                 <?php
+                $career = '';
                 $sql = "select * from career where delete_status='0' order by career.career asc";
                 $q = $conn->query($sql);
 
