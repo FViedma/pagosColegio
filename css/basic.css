@@ -8,7 +8,7 @@ html, body {
 
 #wrapper {
     width: 100%;
-    min-height: calc(100vh - 65px);
+    min-height: calc(100vh - 68px);
     background: #FFFFFF;
 }
 

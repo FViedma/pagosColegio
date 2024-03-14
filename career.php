@@ -321,7 +321,7 @@ include("php/header.php");
 <!-- /. WRAPPER  -->
 
 <div id="footer-sec">
-	Para más desarrollos gratuitos, accede a <a href="https://www.configuroweb.com/" target="_blank">ConfiguroWeb</a>
+	CONTACTOS Y REFERENCIAS EN: <a href="https://www.facebook.com/people/Instituto-Del-Carmen-Cochabamba/100084527167834/" target="_blank"><i class="fa fa-facebook-square fa-2x" aria-hidden="true"></i> INSTITUTO DEL CARMEN</a>
 </div>
 
 
