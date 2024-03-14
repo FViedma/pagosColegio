@@ -18,15 +18,15 @@
             <div class="sidebar-collapse">
                 <ul class="nav" id="main-menu">
                     <li>
-                        <!-- <div class="user-img-div">
-                            <img src="img/user.png" class="img-thumbnail" />
+                        <div class="user-img-div">
+                            <img src="img/LogoDelCarmen.png" class="img-thumbnail" />
 
                             <div class="inner-text">
                                 <?php echo $_SESSION['rainbow_name'];?>
                             <br />
                                
                             </div>
-                        </div> -->
+                        </div>
 
                     </li>
 

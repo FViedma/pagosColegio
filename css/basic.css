@@ -1,36 +1,38 @@
 
 
-body {
+html, body {
     font-family: 'Open Sans', sans-serif;
     line-height:25px;
+    height: 100%;
 }
 
 #wrapper {
     width: 100%;
+    min-height: calc(100vh - 65px);
     background: #FFFFFF;
 }
 
 #page-wrapper {
     padding: 15px 15px;
-    min-height: 600px;
+    min-height: calc(100% - 75px);
     background: #FFFFFF;
 }
 
 #page-inner {
     width: 100%;
-    margin: 10px 20px 10px 0px;
+    margin: 5px 10px;
     background-color: #fff!important;
     padding: 10px;
-    min-height: 1200px;
+    min-height: calc(100% - 90px);
 }
 
 .page-head-line {
     font-size: 30px;
     text-transform: uppercase;
-    color: #000;
+    color: #34141F;
     font-weight: 800;
     padding-bottom: 20px;
-    border-bottom: 2px solid #FFC0CB;
+    border-bottom: 2px solid #EC1C70;
     margin-bottom: 10px;
 }
 
@@ -40,7 +42,7 @@ body {
     padding-bottom: 20px;
     font-style:italic;
     margin-bottom:30px;
-    border-bottom:1px dashed #ffc0cb;
+    border-bottom:1px dashed #EC1C70;
 
 }
 
@@ -51,8 +53,8 @@ body {
 
 
 .navbar-cls-top .navbar-brand {
-    color: #fff;
-    background: #202020;
+    color: #FCFBFC;
+    background: #34141F;
     width: 260px;
     text-align: center;
     height: 75px;
@@ -64,40 +66,41 @@ body {
 }
 
 .header-right {
-    color: #fff;
+    color: #FCFBFC;
     padding: 15px 50px 5px 50px;
     float: right;
     font-size: 16px;
 }
 
 .navbar-cls-top .navbar-brand:hover {
-    background: #202020;
+    background: #34141F;
     color: #fff;
 }
 
 .user-img-div {
     min-height: 140px;
     padding: 20px;
-    background-color: #4380B8;
+    background-color: #34141F;
+    text-align: center;
 }
 
     .user-img-div img {
-        max-height: 60px;
+        max-height: 180px;
     }
 
     .user-img-div .inner-text {
-        text-align: right;
+        text-align: center;
         position: relative;
-        color: #fff;
+        color: #FCFBFC;
         font-weight: 800;
         line-height: 25px;
     }
 
 .active-menu {
-    background-color: #ffc0cb!important;
+    background-color: #E3538C!important;
 }
 .active-menu-top {
-    background-color: #000!important;
+    background-color: #34141F!important;
 }
 
 .arrow {
@@ -135,8 +138,8 @@ body {
     }
 
         .sidebar-collapse .nav > li > a {
-            color: #fff;
-            background: #202020;
+            color: #FCFBFC;
+            background: #34141F;
             text-shadow: none;
             padding: 15px 40px;
             border-bottom: 1px solid #2F2E31;
@@ -170,29 +173,29 @@ body {
 }
 
 .navbar-cls-top {
-    background: #ffc0cb;
+    background: #EC1C70;
     border-bottom: none;
 }
 
 
 .navbar-default {
-    border: 0px solid black;
+    border: 0px solid #34141F;
 }
 
 .navbar-header {
-    background: #000000;
+    background: #34141F;
 }
 
 .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
-    background-color: #ffc0cb;
+    background-color: #EC1C70;
 }
 
 .navbar-default .navbar-toggle {
-    border-color: #fff;
+    border-color: #FCFBFC;
 }
 
     .navbar-default .navbar-toggle .icon-bar {
-        background-color: #FFF;
+        background-color: #FCFBFC;
     }
 
 .nav > li > a > i {
@@ -204,15 +207,18 @@ body {
 #footer-sec {
     background-color:#000;
     padding:20px 50px;
-    color:#fff;
+    color:#FCFBFC;
     font-size:12px;
+    width: 100%; /* Make sure the footer spans the entire width */
+    position: fixed; /* Fix the footer at the bottom of the screen */
+    bottom: 0; /* Position the footer at the bottom */
 }
 
     #footer-sec a {
-        color:#fff;
+        color:#FCFBFC;
     }
     #footer-sec a:hover,a:focus {
-        color:#fff;
+        color:#FCFBFC;
         text-decoration:none;
     }
 /*==============================================
@@ -223,9 +229,12 @@ body {
     #page-wrapper {
         margin: 0 0 0 260px;
         padding: 15px 30px;
-        min-height: 1200px;
+        min-height: calc(100% - 75px);
     }
 
+    #footer-sec {
+        position: relative; /* Reset position for smaller screens */
+    }
 
     .navbar-side {
         z-index: 1;
