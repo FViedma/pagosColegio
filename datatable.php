@@ -5,13 +5,13 @@ include("php/checklogin.php");
 
 if($_GET['type']=="feesearch")
 {
-$aColumns = array( 's.id','s.sname','s.balance','s.fees','b.career','s.contact','s.joindate');
+$aColumns = array( 's.id','s.sname','s.balance','s.fees','c.career','b.branch','s.contact','s.joindate');
 	
 	/* Indexed column (used for fast and accurate table cardinality) */
 	$sIndexColumn = "s.id";
 	
 	/* DB table to use */
-	$sTable = " student as s,career as b ";
+	$sTable = " student as s,career as c, branch as b";
 	
 	
 	
@@ -57,9 +57,15 @@ $aColumns = array( 's.id','s.sname','s.balance','s.fees','b.career','s.contact',
 	
 	}
 	
+	if(isset($_GET['branch']) && $_GET['branch']!="")
+	{
+	$condArr[] = "b.id = '".mysqli_real_escape_string($conn,$_GET['branch'])."'";
+	
+	}
+	
 	if(isset($_GET['career']) && $_GET['career']!="")
 	{
-	$condArr[] = "b.id = '".mysqli_real_escape_string($conn,$_GET['career'])."'";
+	$condArr[] = "c.id = '".mysqli_real_escape_string($conn,$_GET['career'])."'";
 	
 	}
 	
@@ -82,7 +88,7 @@ $aColumns = array( 's.id','s.sname','s.balance','s.fees','b.career','s.contact',
 	 
 	$mycount = count($aColumns);
 	 
-	$sWhere = " WHERE b.id=s.career and s.delete_status='0' and s.balance>0 ";
+	$sWhere = " WHERE c.id=s.career and b.id=s.branch and s.delete_status='0' and s.balance>0 ";
 	if ( isset($_GET['sSearch'])&& $_GET['sSearch'] != "" )
 	{
 	    
@@ -134,7 +140,7 @@ $aColumns = array( 's.id','s.sname','s.balance','s.fees','b.career','s.contact',
 	
 	/* Total data set length */
 	$sQuery = "SELECT COUNT(".$sIndexColumn.") as cc
-		FROM   ".$sTable." WHERE b.id=s.career and s.delete_status='0' and s.balance>0  ";
+		FROM   ".$sTable." WHERE c.id=s.career and b.id=s.branch and s.delete_status='0' and s.balance>0  ";
 	$rResultTotal = $conn->query( $sQuery ) or die(mysqli_error($conn));
 	$aResultTotal = $rResultTotal->fetch_assoc();
 	$iTotal = $aResultTotal['cc'];
@@ -172,10 +178,11 @@ $aColumns = array( 's.id','s.sname','s.balance','s.fees','b.career','s.contact',
                     html_entity_decode($aRow['sname'].'<br/>'.$aRow['contact']),
                     $aRow['fees'],
 					$aRow['balance'],
+                    $aRow['branch'],
                     $aRow['career'],
 					date("d M y", strtotime($aRow['joindate'])),
                     
-					html_entity_decode('<button class="btn btn-warning btn-xs" onclick="javascript:GetFeeForm('.$aRow['id'].', \''.$aRow['career'].'\')"><i class="fa fa-usd "></i>  Tomar Pago </button>')
+					html_entity_decode('<button class="btn btn-warning btn-xs" onclick="javascript:GetFeeForm('.$aRow['id'].', \''.$aRow['branch'].'\', \''.$aRow['career'].'\')"><i class="fa fa-usd "></i>  Tomar Pago </button>')
 										
                 );
 		
@@ -187,17 +194,17 @@ $aColumns = array( 's.id','s.sname','s.balance','s.fees','b.career','s.contact',
 
 }
 
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if($_GET['type']=="report")
 {
-$aColumns = array( 's.id','s.sname','s.balance','s.fees','b.career','s.contact','s.joindate');
+$aColumns = array( 's.id','s.sname','s.balance','s.fees','c.career','b.branch','s.contact','s.joindate');
 	
 	/* Indexed column (used for fast and accurate table cardinality) */
 	$sIndexColumn = "s.id";
 	
 	/* DB table to use */
-	$sTable = " student as s,career as b ";
+	$sTable = " student as s,career as c, branch as b";
 	
 	
 	
@@ -243,13 +250,18 @@ $aColumns = array( 's.id','s.sname','s.balance','s.fees','b.career','s.contact',
 	
 	}
 	
-	if(isset($_GET['career']) && $_GET['career']!="")
+	if(isset($_GET['branch']) && $_GET['branch']!="")
 	{
-	$condArr[] = "b.id = '".mysqli_real_escape_string($conn,$_GET['career'])."'";
+	$condArr[] = "b.id = '".mysqli_real_escape_string($conn,$_GET['branch'])."'";
 	
 	}
 	
+	if(isset($_GET['career']) && $_GET['career']!="")
+	{
+	$condArr[] = "c.id = '".mysqli_real_escape_string($conn,$_GET['career'])."'";
 	
+	}
+		
 	if(isset($_GET['doj']) && $_GET['doj']!="")
 	{
 	$Adate= explode(' ',$_GET['doj']);
@@ -268,7 +280,7 @@ $aColumns = array( 's.id','s.sname','s.balance','s.fees','b.career','s.contact',
 	 
 	$mycount = count($aColumns);
 	 
-	$sWhere = " WHERE b.id=s.career and s.delete_status='0'  ";
+	$sWhere = " WHERE c.id=s.career and b.id=s.branch and s.delete_status='0'  ";
 	if ( isset($_GET['sSearch'])&& $_GET['sSearch'] != "" )
 	{
 	    
@@ -320,7 +332,7 @@ $aColumns = array( 's.id','s.sname','s.balance','s.fees','b.career','s.contact',
 	
 	/* Total data set length */
 	$sQuery = "SELECT COUNT(".$sIndexColumn.") as cc
-		FROM   ".$sTable." WHERE b.id=s.career and s.delete_status='0'   ";
+		FROM   ".$sTable." WHERE c.id=s.career and b.id=s.branch and s.delete_status='0'   ";
 	$rResultTotal = $conn->query( $sQuery ) or die(mysqli_error($conn));
 	$aResultTotal = $rResultTotal->fetch_assoc();
 	$iTotal = $aResultTotal['cc'];

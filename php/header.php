@@ -1,4 +1,3 @@
-
 <body>
     <div id="wrapper">
         <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
@@ -22,9 +21,9 @@
                             <img src="img/LogoDelCarmen.png" class="img-thumbnail" />
 
                             <div class="inner-text">
-                                <?php echo $_SESSION['rainbow_name'];?>
-                            <br />
-                               
+                                <?php echo $_SESSION['rainbow_name']; ?>
+                                <br />
+
                             </div>
                         </div>
 
@@ -32,41 +31,42 @@
 
 
                     <li>
-                        <a class="active-menu" href="index.php"><i class="fa fa-dashboard "></i>Panel de Control</a>
+                        <a href="index.php"><i class="fa fa-dashboard "></i>Panel de Control</a>
                     </li>
-					
-					 <li>
+
+                    <li>
                         <a href="branch.php"><i class="fa fa-university "></i>Sucursal</a>
                     </li>
 
-					 <li>
+                    <li>
                         <a href="career.php"><i class="fa fa-graduation-cap "></i>Carreras</a>
                     </li>
-					
-					 <li>
+
+                    <li>
                         <a href="student.php"><i class="fa fa-users "></i>Estudiantes</a>
                     </li>
-					<li>
+                    <li>
                         <a href="fees.php"><i class="fa fa-usd "></i>Pagos</a>
                     </li>
-					 <li>
+                    <li>
                         <a href="report.php"><i class="fa fa-file-text "></i>Reporte </a>
                     </li>
-					
-					 
-					
-					<li>
+
+
+
+                    <li>
                         <a href="setting.php"><i class="fa fa-cogs "></i>Configuración</a>
                     </li>
-					
-					 <li>
+
+                    <li>
                         <a href="logout.php"><i class="fa fa-power-off "></i>Cerrar Sesión</a>
                     </li>
-					
-			
+
+
                 </ul>
 
             </div>
 
         </nav>
         <!-- /. NAV SIDE  -->
+</body>

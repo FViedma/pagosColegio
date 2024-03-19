@@ -1,8 +1,7 @@
-
-
-html, body {
+html,
+body {
     font-family: 'Open Sans', sans-serif;
-    line-height:25px;
+    line-height: 25px;
     height: 100%;
 }
 
@@ -21,7 +20,7 @@ html, body {
 #page-inner {
     width: 100%;
     margin: 5px 10px;
-    background-color: #fff!important;
+    background-color: #fff !important;
     padding: 10px;
     min-height: calc(100% - 90px);
 }
@@ -40,9 +39,9 @@ html, body {
     font-size: 14px;
     padding-top: 5px;
     padding-bottom: 20px;
-    font-style:italic;
-    margin-bottom:30px;
-    border-bottom:1px dashed #EC1C70;
+    font-style: italic;
+    margin-bottom: 30px;
+    border-bottom: 1px dashed #EC1C70;
 
 }
 
@@ -62,7 +61,7 @@ html, body {
     letter-spacing: 1px;
     font-weight: 900;
     padding-top: 25px;
-    text-transform:uppercase;
+    text-transform: uppercase;
 }
 
 .header-right {
@@ -84,23 +83,24 @@ html, body {
     text-align: center;
 }
 
-    .user-img-div img {
-        max-height: 180px;
-    }
+.user-img-div img {
+    max-height: 180px;
+}
 
-    .user-img-div .inner-text {
-        text-align: center;
-        position: relative;
-        color: #FCFBFC;
-        font-weight: 800;
-        line-height: 25px;
-    }
+.user-img-div .inner-text {
+    text-align: center;
+    position: relative;
+    color: #FCFBFC;
+    font-weight: 800;
+    line-height: 25px;
+}
 
 .active-menu {
-    background-color: #E3538C!important;
+    background-color: #E3538C !important;
 }
+
 .active-menu-top {
-    background-color: #34141F!important;
+    background-color: #34141F !important;
 }
 
 .arrow {
@@ -111,8 +111,9 @@ html, body {
     content: "\f104";
 }
 
-.active > a > .fa.arrow:before {
-    content: "\f107";
+.active {
+    background-color: #E3538C !important;
+    color: #fff !important;
 }
 
 
@@ -121,49 +122,50 @@ html, body {
     border-bottom: none !important;
 }
 
-    .nav-second-level li a {
-        padding-left: 37px;
-    }
+.nav-second-level li a {
+    padding-left: 37px;
+}
 
-    .nav-third-level li a {
-        padding-left: 55px;
-    }
+.nav-third-level li a {
+    padding-left: 55px;
+}
 
-.sidebar-collapse, .sidebar-collapse .nav {
+.sidebar-collapse,
+.sidebar-collapse .nav {
     background: none;
 }
 
-    .sidebar-collapse .nav {
-        padding: 0;
-    }
+.sidebar-collapse .nav {
+    padding: 0;
+}
 
-        .sidebar-collapse .nav > li > a {
-            color: #FCFBFC;
-            background: #34141F;
-            text-shadow: none;
-            padding: 15px 40px;
-            border-bottom: 1px solid #2F2E31;
-        }
+.sidebar-collapse .nav>li>a {
+    color: #FCFBFC;
+    background: #34141F;
+    text-shadow: none;
+    padding: 15px 40px;
+    border-bottom: 1px solid #2F2E31;
+}
 
-    .sidebar-collapse > .nav > li > a {
-        padding: 15px 10px;
-    }
+.sidebar-collapse>.nav>li>a {
+    padding: 15px 10px;
+}
 
-    .sidebar-collapse .nav > li > a:hover,
-    .sidebar-collapse .nav > li > a:focus {
-        background: #0A0A0A;
-        outline: 0;
-    }
+.sidebar-collapse .nav>li>a:hover,
+.sidebar-collapse .nav>li>a:focus {
+    background: #E3538C;
+    outline: 0;
+}
 
 
 
-.nav-second-level > li:last-child > a:after,
-.nav-third-level > li:last-child > a:after {
+.nav-second-level>li:last-child>a:after,
+.nav-third-level>li:last-child>a:after {
     height: 50%;
 }
 
-.nav-third-level > li > a:after,
-.nav-third-level > li > a:before {
+.nav-third-level>li>a:after,
+.nav-third-level>li>a:before {
     left: 40px;
 }
 
@@ -186,7 +188,8 @@ html, body {
     background: #34141F;
 }
 
-.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle:focus {
     background-color: #EC1C70;
 }
 
@@ -194,33 +197,40 @@ html, body {
     border-color: #FCFBFC;
 }
 
-    .navbar-default .navbar-toggle .icon-bar {
-        background-color: #FCFBFC;
-    }
+.navbar-default .navbar-toggle .icon-bar {
+    background-color: #FCFBFC;
+}
 
-.nav > li > a > i {
+.nav>li>a>i {
     margin-right: 10px;
 }
+
 /*==============================================
     FOOTER  STYLES    
     =============================================*/
 #footer-sec {
-    background-color:#000;
-    padding:20px 50px;
-    color:#FCFBFC;
-    font-size:12px;
-    width: 100%; /* Make sure the footer spans the entire width */
-    position: fixed; /* Fix the footer at the bottom of the screen */
-    bottom: 0; /* Position the footer at the bottom */
+    background-color: #000;
+    padding: 20px 50px;
+    color: #FCFBFC;
+    font-size: 12px;
+    width: 100%;
+    /* Make sure the footer spans the entire width */
+    position: fixed;
+    /* Fix the footer at the bottom of the screen */
+    bottom: 0;
+    /* Position the footer at the bottom */
 }
 
-    #footer-sec a {
-        color:#FCFBFC;
-    }
-    #footer-sec a:hover,a:focus {
-        color:#FCFBFC;
-        text-decoration:none;
-    }
+#footer-sec a {
+    color: #FCFBFC;
+}
+
+#footer-sec a:hover,
+a:focus {
+    color: #FCFBFC;
+    text-decoration: none;
+}
+
 /*==============================================
     MEDIA QUERIES     
     =============================================*/
@@ -233,7 +243,8 @@ html, body {
     }
 
     #footer-sec {
-        position: relative; /* Reset position for smaller screens */
+        position: relative;
+        /* Reset position for smaller screens */
     }
 
     .navbar-side {
@@ -246,7 +257,3 @@ html, body {
         border-radius: 0px;
     }
 }
-
-
-
-

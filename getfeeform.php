@@ -75,6 +75,8 @@ if (isset($_POST['req']) && $_POST['req'] == '1') {
  
  
  
+  <input type="hidden" id="studentId" name="studentId">
+  <input type="hidden" id="branchValue" name="branchValue">
   <input type="hidden" id="careerValue" name="careerValue">
  
   <div class="form-group"> 

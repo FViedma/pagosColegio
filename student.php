@@ -26,6 +26,7 @@ if (isset($_POST['save'])) {
 	$contact = mysqli_real_escape_string($conn, $_POST['contact']);
 	$about = mysqli_real_escape_string($conn, $_POST['about']);
 	$emailid = mysqli_real_escape_string($conn, $_POST['emailid']);
+	$branch = mysqli_real_escape_string($conn, $_POST['branch']);
 	$career = mysqli_real_escape_string($conn, $_POST['career']);
 
 
@@ -35,7 +36,7 @@ if (isset($_POST['save'])) {
 		$advancefees = mysqli_real_escape_string($conn, $_POST['advancefees']);
 		$balance = $fees - $advancefees;
 
-		$q1 = $conn->query("INSERT INTO student (ci,sname,joindate,contact,about,emailid,career,balance,fees) VALUES ('$ci','$sname','$joindate','$contact','$about','$emailid','$career','$balance','$fees')");
+		$q1 = $conn->query("INSERT INTO student (ci,sname,joindate,contact,about,emailid,career,branch,balance,fees) VALUES ('$ci','$sname','$joindate','$contact','$about','$emailid','$career','$branch','$balance','$fees')");
 
 		$sid = $conn->insert_id;
 
@@ -45,7 +46,7 @@ if (isset($_POST['save'])) {
 	} else
   if ($_POST['action'] == "update") {
 		$id = mysqli_real_escape_string($conn, $_POST['id']);
-		$sql = $conn->query("UPDATE  student  SET ci = '$ci', sname = '$sname', contact = '$contact', career  = '$career', about = '$about', emailid = '$emailid'  WHERE  id  = '$id'");
+		$sql = $conn->query("UPDATE  student  SET ci = '$ci', sname = '$sname', contact = '$contact', career  = '$career', branch  = '$branch', about = '$about', emailid = '$emailid'  WHERE  id  = '$id'");
 		echo '<script type="text/javascript">window.location="student.php?act=2";</script>';
 	}
 }
@@ -168,6 +169,24 @@ include("php/header.php");
 										<label class="col-sm-2 control-label" for="Old">Contacto* </label>
 										<div class="col-sm-10">
 											<input type="text" class="form-control" id="contact" name="contact" value="<?php echo $contact; ?>" maxlength="10" />
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-sm-2 control-label" for="Old">Sucursal* </label>
+										<div class="col-sm-10">
+											<select class="form-control" id="branch" name="branch">
+												<option value="">Selecciona Sucursal</option>
+												<?php
+												$sql = "select * from branch where delete_status='0' order by branch.branch asc";
+												$q = $conn->query($sql);
+
+												while ($r = $q->fetch_assoc()) {
+													echo '<option value="' . $r['id'] . '"  ' . (($branch == $r['id']) ? 'selected="selected"' : '') . '>' . $r['branch'] . '</option>';
+												}
+												?>
+
+											</select>
 										</div>
 									</div>
 
