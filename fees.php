@@ -310,8 +310,9 @@ include("php/header.php");
               var titleWidth = doc.getStringUnitWidth('Comprobante de INGRESO') * 20; // Calculate title width
               var marginLeft = (doc.internal.pageSize.width - titleWidth) / 2; // Calculate left margin for centering
               doc.text('Comprobante de INGRESO', marginLeft, 60);
-
+              
               doc.setFontSize(12);
+              doc.text('Codigo', 425, 90);
               // Add date of issuance
               var today = new Date();
               var dd = String(today.getDate()).padStart(2, '0');
