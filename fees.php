@@ -3,44 +3,10 @@ include("php/dbconnect.php");
 include("php/checklogin.php");
 $errormsg = '';
 
-if (isset($_POST['save'])) {
-  $paid = mysqli_real_escape_string($conn, $_POST['paid']);
-  $submitdate = mysqli_real_escape_string($conn, $_POST['submitdate']);
-  $transcation_remark = mysqli_real_escape_string($conn, $_POST['transaction_remark']);
-  $sid = mysqli_real_escape_string($conn, $_POST['sid']);
-
-  $sql = "select fees,balance  from student where id = '$sid'";
-  $sq = $conn->query($sql);
-  $sr = $sq->fetch_assoc();
-  $totalfee = $sr['fees'];
-  if ($sr['balance'] > 0) {
-    $sql = "insert into fees_transaction(stdid,submitdate,transcation_remark,paid) values('$sid','$submitdate','$transcation_remark','$paid') ";
-    $conn->query($sql);
-    $sql = "SELECT sum(paid) as totalpaid FROM fees_transaction WHERE stdid = '$sid'";
-    $tpq = $conn->query($sql);
-    $tpr = $tpq->fetch_assoc();
-    $totalpaid = $tpr['totalpaid'];
-    $tbalance = $totalfee - $totalpaid;
-
-    $sql = "update student set balance='$tbalance' where id = '$sid'";
-    $conn->query($sql);
-
-    echo '<script type="text/javascript">window.location="fees.php?act=1";</script>';
-  }
-} else {
-  error_log('Error en la transaccion en base de datos');
-}
-
-if (isset($_REQUEST['act']) && @$_REQUEST['act'] == "1") {
-  $errormsg = "<div class='alert alert-success'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><strong>Excelente!</strong> Pago realizado exitósamente</div>";
-} else {
-  error_log("error");
-}
-
 ?>
 
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
 
 <head>
   <meta charset="utf-8" />
@@ -89,13 +55,14 @@ include("php/header.php");
       </div>
     </div>
 
-
-
     <?php
+    if (isset($_REQUEST['act']) && @$_REQUEST['act'] == "1") {
+      $errormsg = "<div class='alert alert-success'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><strong>Excelente!</strong> Pago realizado exitósamente</div>";
+    } else {
+      error_log("error");
+    }
     echo $errormsg;
     ?>
-
-
 
     <div class="row" style="margin-bottom:20px;">
       <div class="col-md-12">
@@ -289,128 +256,146 @@ include("php/header.php");
         $('#myModal').on('shown.bs.modal', function() {
           $('#signupForm1').on('submit', function(e) {
             e.preventDefault();
-            var studentName = $('#name').val();
-            var pagado = $('#paid').val();
-            var saldo = $('#balance').val();
-            var branch = $('#branchValue').val();
-            var career = $('#careerValue').val();
-            var studentID = $('#studentId').val();
-            var studentCi = $('#ci').val();
-            obtenerNumeroPagosEstudiante(studentID, function(numPagos) {
+            if ($(this).valid()) {
 
-              var doc = new jspdf.jsPDF('p', 'pt', 'letter');
+              var studentName = $('#name').val();
+              var pagado = $('#paid').val();
+              var saldo = $('#balance').val();
+              var branch = $('#branchValue').val();
+              var submitDate = $('#submitdate').val();
+              var transaction_remark = $('#transaction_remark').val();
+              var career = $('#careerValue').val();
+              var studentID = $('#studentId').val();
+              var studentCi = $('#ci').val();
 
-              // Set font size and style for the document.
-              doc.setFontSize(16);
+              $.ajax({
+                url: 'insertFee.php',
+                method: 'POST',
+                data: {
+                  save: 'save',
+                  paid: pagado,
+                  submitdate: submitDate,
+                  transaction_remark: transaction_remark,
+                  sid: studentID,
+                },
+                success: function(last_id) {
 
-              // Add title - Centered
-              doc.setFillColor(255, 192, 203);
-              doc.rect(40, 40, 525, 30, 'FD'); // 'FD' indicates fill and draw
-              doc.setTextColor(0);
-              var titleWidth = doc.getStringUnitWidth('Comprobante de INGRESO') * 20; // Calculate title width
-              var marginLeft = (doc.internal.pageSize.width - titleWidth) / 2; // Calculate left margin for centering
-              doc.text('Comprobante de INGRESO', marginLeft, 60);
-              
-              doc.setFontSize(12);
-              doc.text('Codigo', 425, 90);
-              // Add date of issuance
-              var today = new Date();
-              var dd = String(today.getDate()).padStart(2, '0');
-              var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
-              var yyyy = today.getFullYear().toString();
-              doc.text('Fecha de Emisión:', 425, 120);
-
-              var posX = 425;
-              var posY = 125;
-              var boxWidth = 20;
-              var boxHeight = 20;
-              var gap = 5;
-
-              doc.rect(posX, posY, boxWidth + 1, boxHeight);
-              doc.text(dd, posX + (boxWidth / 2) - 5, posY + (boxHeight / 2) + 3);
-
-              // Draw month box
-              doc.rect(posX + (boxWidth + gap), posY, boxWidth + 1, boxHeight);
-              doc.text(mm, posX + (boxWidth + gap) + (boxWidth / 2) - 4, posY + (boxHeight / 2) + 3);
-
-              // Draw year boxes
-              doc.rect(posX + 2 * (boxWidth + gap), posY, boxWidth + 15, boxHeight);
-              doc.text(yyyy, posX + 2 * (boxWidth + gap) + (boxWidth / 2) - 4, posY + (boxHeight / 2) + 3);
-
-
-              // Add student name and ID card
-              doc.text('RECIBI DE:', 50, 160);
-              doc.text('CI: ' + studentCi, 425, 160);
-              doc.text(studentName.toUpperCase(), 60, 172);
-
-              var amountReceivedText = 'LA SUMA DE: ';
-              var amountReceivedNumber = '' + pagado;
-              var amountInWordsSubtitle = 'Cantidad en letras: ';
-              var amountInWordsText = numeroEnLetras(pagado);
-              var maxTextWidth = Math.max(
-                doc.getStringUnitWidth(amountReceivedText) * 12, // Assuming font size 12
-                doc.getStringUnitWidth(amountReceivedNumber) * 12, // Assuming font size 12
-                doc.getStringUnitWidth(amountInWordsSubtitle) * 12, // Assuming font size 12
-                doc.getStringUnitWidth(amountInWordsText) * 12, // Assuming font size 12
-              );
-              doc.text(amountReceivedText, 50, 193);
-              doc.text(amountInWordsText + " BOLIVIANOS", 50, 213);
-
-              var contentWidth = 525; // Width of the content area
-              var contentHeight = 80; // Height of the content area
-              var borderWidth = 1; // Border width
-              var startX = 40; // Starting X position of the border
-              var startY = 150; // Starting Y position of the border
-              doc.rect(startX, startY, contentWidth, contentHeight, 'S');
-              // Draw border around the content
-              contentWidth = 505; // Width of the content area
-              contentHeight = 20; // Height of the content area
-              borderWidth = 1; // Border width
-              startX = 45; // Starting X position of the border
-              startY = 161; // Starting Y position of the border
-              doc.rect(startX, startY, contentWidth, contentHeight, 'S');
-              // Draw border around the content
-              contentWidth = 505; // Width of the content area
-              contentHeight = 20; // Height of the content area
-              borderWidth = 1; // Border width
-              startX = 45; // Starting X position of the border
-              startY = 201; // Starting Y position of the border
-              doc.rect(startX, startY, contentWidth, contentHeight, 'S');
-
-              doc.text('Sucursal: ' + branch.toUpperCase(), 395, 250);
-
-              doc.text('Carrera: ' + career.toUpperCase(), 395, 270);
-
-              doc.text('CUOTA: ' + numPagos, 50, 250);
-
-              doc.text('A cuenta: ' + pagado, 395, 280);
-
-              doc.text('Saldo: ' + saldo, 395, 300);
-
-              doc.text('Total: ' + pagado, 395, 320);
-
-              var pageHeight = doc.internal.pageSize.height;
-
-              doc.save("comprobante.pdf");
-
-              // Create a hidden input field to hold the 'save' value
-              var saveInput = $('<input>')
-                .attr('type', 'hidden')
-                .attr('name', 'save')
-                .val('save');
-
-              // Append the hidden input field to the form
-              $(this).append(saveInput);
-
-              // Submit the form
-
-              this.submit();
-            });
-
+                  obtenerNumeroPagosEstudiante(studentID, function(numPagos) {
+                    // Create a hidden input field to hold the 'save' value
+                    var doc = new jspdf.jsPDF('p', 'pt', 'letter');
+                    generarFormulario(last_id, doc, 40, 40, studentCi, studentName, pagado, saldo, branch, career, numPagos);
+                    generarFormulario(last_id, doc, 40, 350, studentCi, studentName, pagado, saldo, branch, career, numPagos);
+                    doc.save("comprobante.pdf");
+                    window.location = "fees.php?act=1";
+                  });
+                },
+                error: function(xhr, status, error) {
+                  console.error("Error en la inserción:", status, error);
+                }
+              });
+            } else {
+              console.log("El formulario tiene errores, no se puede enviar...");
+            }
           });
         });
-
       });
+
+      function generarFormulario(last_id, doc, x, y, studentCi, studentName, pagado, saldo, branch, career, numPagos) {
+
+        // Set font size and style for the document.
+        doc.setFontSize(16);
+
+        // Add title - Centered
+        doc.setFillColor(255, 192, 203);
+        doc.rect(x, y, 525, 30, 'FD'); // 'FD' indicates fill and draw
+        doc.setTextColor(0);
+        var titleWidth = doc.getStringUnitWidth('Comprobante de INGRESO') * 20; // Calculate title width
+        var marginLeft = (doc.internal.pageSize.width - titleWidth) / 2 + 80; // Calculate left margin for centering
+        doc.text('Plan de Pagos', marginLeft, y + 20);
+
+        doc.setFontSize(12);
+        doc.text('Codigo', x + 385, y + 50);
+        // Add date of issuance
+        doc.rect(x + 435, y + 35, 70, 20);
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+        var yyyy = today.getFullYear().toString();
+        doc.text('Fecha de Emisión:', 425, y + 80);
+
+        var posX = x + 385;
+        var posY = y + 85;
+        var boxWidth = 20;
+        var boxHeight = 20;
+        var gap = 5;
+
+        doc.rect(posX, posY, boxWidth + 1, boxHeight);
+        doc.text(dd, posX + (boxWidth / 2) - 5, posY + (boxHeight / 2) + 3);
+
+        // Draw month box
+        doc.rect(posX + (boxWidth + gap), posY, boxWidth + 1, boxHeight);
+        doc.text(mm, posX + (boxWidth + gap) + (boxWidth / 2) - 4, posY + (boxHeight / 2) + 3);
+
+        // Draw year boxes
+        doc.rect(posX + 2 * (boxWidth + gap), posY, boxWidth + 15, boxHeight);
+        doc.text(yyyy, posX + 2 * (boxWidth + gap) + (boxWidth / 2) - 4, posY + (boxHeight / 2) + 3);
+
+
+        // Add student name and ID card
+        doc.text('RECIBI DE:', x + 10, y + 125);
+        doc.text('CI: ' + studentCi, x + 385, y + 125);
+        doc.text(studentName.toUpperCase(), 50, y + 140);
+
+        var amountReceivedText = 'LA SUMA DE: ';
+        var amountReceivedNumber = '' + pagado;
+        var amountInWordsSubtitle = 'Cantidad en letras: ';
+        var amountInWordsText = numeroEnLetras(pagado);
+        var maxTextWidth = Math.max(
+          doc.getStringUnitWidth(amountReceivedText) * 12, // Assuming font size 12
+          doc.getStringUnitWidth(amountReceivedNumber) * 12, // Assuming font size 12
+          doc.getStringUnitWidth(amountInWordsSubtitle) * 12, // Assuming font size 12
+          doc.getStringUnitWidth(amountInWordsText) * 12, // Assuming font size 12
+        );
+        var textX = 50; // X position for the text
+        var textY = 160; // Y position for the text
+        doc.text(amountReceivedText, textX, y + textY);
+        doc.text(amountInWordsText + " BOLIVIANOS", textX, y + textY + 25);
+
+        var contentWidth = 525; // Width of the content area
+        var contentHeight = 87; // Height of the content area
+        var borderWidth = 1; // Border width
+        var startX = 40; // Starting X position of the border
+        var startY = 110; // Starting Y position of the border
+        doc.rect(startX, y + startY, contentWidth, contentHeight, 'S');
+        // Draw border around the content
+        contentWidth = 505; // Width of the content area
+        contentHeight = 20; // Height of the content area
+        startX = 45; // Starting X position of the border
+        startY = 128; // Starting Y position of the border
+        doc.rect(startX, y + startY, contentWidth, contentHeight, 'S');
+
+        // Draw border around the content
+        contentWidth = 505; // Width of the content area
+        contentHeight = 20; // Height of the content area
+        startX = 45; // Starting X position of the border
+        startY = 168; // Starting Y position of the border
+        doc.rect(startX, y + startY, contentWidth, contentHeight, 'S');
+
+        doc.text('Sucursal: ' + branch.toUpperCase(), x + 355, y + 210);
+
+        doc.text('Carrera: ' + career.toUpperCase(), x + 355, y + 228);
+
+        doc.text('CUOTA: ' + numPagos, x + 10, y + 210);
+
+        doc.text('A cuenta: ' + pagado, x + 355, y + 245);
+
+        doc.text('Saldo: ' + (saldo - pagado), x + 355, y + 265);
+
+        doc.text('Total: ' + pagado, x + 355, y + 285);
+        doc.rect(x + 10, y + 220, 70, 40, 'S');
+        doc.text('PP - ' + last_id, x + 17, y + 240);
+        var pageHeight = doc.internal.pageSize.height;
+      }
 
       function obtenerNumeroPagosEstudiante(studentID, callback) {
         $.ajax({

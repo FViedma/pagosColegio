@@ -111,6 +111,14 @@ $( "#signupForm1" ).validate( {
 					
 					
 				},
+        messages: {
+          submitdate: "Por favor, ingrese la fecha de envío",
+          paid: {
+              required: "Por favor, ingrese la cantidad pagada",
+              digits: "Por favor, ingrese solo números enteros",
+              max: "La cantidad pagada no puede ser mayor que ' . $res['balance'] . '"
+          }
+        },
 				errorElement: "em",
 				errorPlacement: function ( error, element ) {
 					// Add the `help-block` class to the error element
