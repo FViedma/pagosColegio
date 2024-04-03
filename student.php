@@ -210,7 +210,7 @@ include("php/header.php");
 
 
 									<div class="form-group">
-										<label class="col-sm-2 control-label" for="Old">Fecha Pago* </label>
+										<label class="col-sm-2 control-label" for="Old">Fecha De Inscripcion* </label>
 										<div class="col-sm-10">
 											<input type="text" class="form-control" id="joindate" name="joindate" value="<?php echo ($joindate != '') ? date("Y-m-d", strtotime($joindate)) : ''; ?>" style="background-color: #fff;" readonly />
 										</div>

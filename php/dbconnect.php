@@ -2,6 +2,8 @@
 //error_reporting(0);
 ob_start();
 session_start();
+define('ROLE_ADMIN', 'admin');
+define('ROLE_SECRETARIA', 'secretaria');
 $siteName = "Cipet.in";
 
 //DEFINE("BASE_URL","http://cipetbhopal.com/");

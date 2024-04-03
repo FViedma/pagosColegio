@@ -29,18 +29,23 @@
 
                     </li>
 
-
+                    <?php if ($_SESSION['rainbow_role'] === 'admin') : ?>
                     <li>
                         <a href="index.php"><i class="fa fa-dashboard "></i>Panel de Control</a>
                     </li>
+                    <?php endif; ?>
 
+                    <?php if ($_SESSION['rainbow_role'] === 'admin') : ?>
                     <li>
                         <a href="branch.php"><i class="fa fa-university "></i>Sucursal</a>
                     </li>
+                    <?php endif; ?>
 
+                    <?php if ($_SESSION['rainbow_role'] === 'admin') : ?>
                     <li>
                         <a href="career.php"><i class="fa fa-graduation-cap "></i>Carreras</a>
                     </li>
+                    <?php endif; ?>
 
                     <li>
                         <a href="student.php"><i class="fa fa-users "></i>Estudiantes</a>
@@ -51,12 +56,16 @@
                     <li>
                         <a href="report.php"><i class="fa fa-file-text "></i>Reporte </a>
                     </li>
-
-
-
+                    <?php if ($_SESSION['rainbow_role'] === 'admin') : ?>
+                    <li>
+                        <a href="users.php"><i class="fa fa-group "></i>Usuarios</a>
+                    </li>
+                    <?php endif; ?>
+                    <?php if ($_SESSION['rainbow_role'] === 'admin') : ?>
                     <li>
                         <a href="setting.php"><i class="fa fa-cogs "></i>Configuración</a>
                     </li>
+                    <?php endif; ?>
 
                     <li>
                         <a href="logout.php"><i class="fa fa-power-off "></i>Cerrar Sesión</a>
